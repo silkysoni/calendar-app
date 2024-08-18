@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import "./AddEventForm.css";
 import EventModal from "../modal/EventModal";
 import { FaEye } from "react-icons/fa";
+import { SnakeBarContext } from "../context/SnakeBarContext";
 
 const AddEventForm = () => {
   const {
@@ -20,6 +21,9 @@ const AddEventForm = () => {
     setSelectedEvent,
     filterCategory,
   } = useContext(EventContext);
+
+  const { showSnackBar } = useContext(SnakeBarContext);
+
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Personal");
   const [eventsForDate, setEventsForDate] = useState([]);
@@ -34,22 +38,22 @@ const AddEventForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!selectedDate) {
-      alert("Select a date!");
+      showSnackBar("Select a date!", "error");
       return;
     }
     if (!category) {
-      alert("Select a Category!");
+      showSnackBar("Select a Category!", "error");
       return;
     }
     if (!title.trim()) {
-      alert("Title Required!");
+      showSnackBar("Title required!", "error");
       return;
     }
     try {
       if (selectedDate) {
         if (editingEventId) {
           editEvent(editingEventId, title, category);
-          alert("Event Updated!");
+          showSnackBar("Event updated successfully!", "success");
         } else {
           let obj = {
             id: Date.now(),
@@ -58,13 +62,8 @@ const AddEventForm = () => {
             category: category,
           };
 
-          addEvent({
-            id: Date.now(),
-            title,
-            date: selectedDate,
-            category: category,
-          });
-          alert("Event Added!");
+          addEvent(obj);
+          showSnackBar("Event added successfully!", "success");
         }
         fetchEventsForDate();
         setTitle("");
@@ -72,7 +71,7 @@ const AddEventForm = () => {
       }
     } catch (error) {
       console.error("Error handling event submission:", error);
-      alert("An error occurred while processing the event. Please try again.");
+      showSnackBar("Error in proccessing event!", "error");
     }
   };
 
@@ -85,6 +84,7 @@ const AddEventForm = () => {
 
   const handleDelete = (eventId) => {
     deleteEvent(eventId);
+    showSnackBar("Event deleted!", "error");
     setEditingEventId(null);
     setTitle("");
     fetchEventsForDate();

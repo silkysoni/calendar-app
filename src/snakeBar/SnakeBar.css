@@ -1,0 +1,70 @@
+/* SnackBar.css */
+.snackbar-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1400;
+    min-width: 300px;
+    max-width: 500px;
+    background-color: #323232;
+    color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeInOut 3.5s ease forwards;
+}
+
+.snackbar-success {
+    background-color: green;
+    /* Green */
+}
+
+.snackbar-error {
+    background-color: rgb(211, 53, 53);
+    /* Red */
+}
+
+.snackbar-warning {
+    background-color: #ff9800;
+    /* Orange */
+}
+
+.snackbar-info {
+    background-color: #2196f3;
+    /* Blue */
+}
+
+.snackbar-message {
+    flex-grow: 1;
+}
+
+.snackbar-close-btn {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 16px;
+}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+
+    10%,
+    90% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+    }
+}
